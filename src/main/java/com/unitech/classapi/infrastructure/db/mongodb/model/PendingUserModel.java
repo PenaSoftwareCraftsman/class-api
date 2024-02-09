@@ -1,6 +1,9 @@
 package com.unitech.classapi.infrastructure.db.mongodb.model;
 
+import com.unitech.classapi.application.factory.UserFactory;
 import com.unitech.classapi.domain.entity.PendingUser;
+import com.unitech.classapi.domain.enums.Role;
+import com.unitech.classapi.domain.enums.Status;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,5 +37,16 @@ public class PendingUserModel {
                 .status(user.getStatus().toString())
                 .build();
 
+    }
+
+    public PendingUser toDomain(){
+        return UserFactory.buildPendingUser(
+                this.id,
+                this.name,
+                this.email,
+                this.password_hash,
+                Role.valueOf(this.role),
+                Status.valueOf(this.status)
+        );
     }
 }

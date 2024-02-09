@@ -11,7 +11,6 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("Pending user Test")
 public class PendingUserTest {
     @Test()
     @DisplayName("Should convert an Entity to Model")
