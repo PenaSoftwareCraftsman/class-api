@@ -20,7 +20,6 @@ public class PendingUserModel {
     @Id
     public UUID id;
     private String name;
-    private String username;
     private String password_hash;
     private String email;
     private String role;
@@ -30,7 +29,6 @@ public class PendingUserModel {
         return PendingUserModel.builder()
                 .id(user.getId())
                 .name(user.getName())
-                .username(user.getUsername())
                 .password_hash(user.getPassword_hash())
                 .email(user.getEmail())
                 .role(user.getRole().toString())

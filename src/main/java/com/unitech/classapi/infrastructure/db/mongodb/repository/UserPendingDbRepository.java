@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface UserPendingDbRepository extends MongoRepository<PendingUserModel, UUID> {
+    PendingUserModel findByEmail(String email);
 }

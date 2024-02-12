@@ -15,7 +15,6 @@ public class PendingUser {
 
     public UUID id;
     private String name;
-    private String username;
     private String password_hash;
     private String email;
     private Role role;

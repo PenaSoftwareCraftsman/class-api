@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserPort {
     PendingUser save(PendingUser pendingUser);
+
+    PendingUser getByEmail(String getByEmail);
 }

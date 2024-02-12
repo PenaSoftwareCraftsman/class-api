@@ -15,13 +15,11 @@ public class PendingUserTest {
     @Test()
     @DisplayName("Should convert an Entity to Model")
     void shouldConvertEntityToModel(){
-        PendingUser pendingUser = new PendingUser(UUID.randomUUID(), "John Doe", "johndoe", "passwordhashed", "johndoe@email.com", Role.Teacher, Status.PENDING);
+        PendingUser pendingUser = new PendingUser(UUID.randomUUID(), "John Doe", "passwordhashed", "johndoe@email.com", Role.Teacher, Status.PENDING);
 
         PendingUserModel pendingUserModel = PendingUserModel.toModel(pendingUser);
-
         assertEquals(pendingUser.getId(), pendingUserModel.getId());
         assertEquals(pendingUser.getName(), pendingUserModel.getName());
-        assertEquals(pendingUser.getUsername(), pendingUserModel.getUsername());
         assertEquals(pendingUser.getPassword_hash(), pendingUserModel.getPassword_hash());
         assertEquals(pendingUser.getEmail(), pendingUserModel.getEmail());
         assertEquals(pendingUser.getStatus().toString(), pendingUserModel.getStatus());
