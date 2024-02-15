@@ -7,17 +7,9 @@ import java.util.*;
 
 @Repository
 public interface UserPort {
-    PendingUser savePendingUser(PendingUser pendingUser);
 
     User save(UUID id);
 
     User findUserById(UUID id);
 
-    PendingUser fetchByEmail(String getByEmail);
-
-    List<PendingUser> fetchListOfPendingApprovalUsers();
-
-    PendingUser fetchPendingUserById(UUID id);
-
-    public PendingUser deny(UUID id);
 }

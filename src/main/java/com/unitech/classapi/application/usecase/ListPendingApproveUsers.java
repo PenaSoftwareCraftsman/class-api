@@ -1,6 +1,7 @@
 package com.unitech.classapi.application.usecase;
 
 import com.unitech.classapi.application.factory.UserFactory;
+import com.unitech.classapi.application.port.PendingUserPort;
 import com.unitech.classapi.application.port.UserPort;
 import com.unitech.classapi.domain.entity.PendingUser;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ListPendingApproveUsers {
-    private final UserPort userPort;
+    private final PendingUserPort userPort;
 
     public List<PendingUser> execute(){
         List<PendingUser> response = userPort.fetchListOfPendingApprovalUsers();

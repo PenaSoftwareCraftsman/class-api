@@ -23,13 +23,7 @@ public class UserDBAdapter implements UserPort {
     private UserDbRepository user;
 
     private final Logger logger = LoggerFactory.getLogger(UserDBAdapter.class);
-    @Override
-    public PendingUser savePendingUser(PendingUser pendingUser){
 
-        PendingUserModel pendingUserModel = this.pendingUser.save(PendingUserModel.toModel(pendingUser));
-        return pendingUserModel.toDomain();
-
-    }
 
     @Override
     public User findUserById(UUID id){
@@ -47,38 +41,6 @@ public class UserDBAdapter implements UserPort {
     }
 
     @Override
-    public PendingUser fetchByEmail(String email){
-        logger.info("Fetching user by email :" + email);
-        PendingUserModel pendingUserModel = this.pendingUser.findOne(Example.of(
-                PendingUserModel.builder().email(email).build()
-            )
-        ).orElse(null);
-
-        return pendingUserModel != null ? pendingUserModel.toDomain() : null;
-    }
-
-    @Override
-    public PendingUser fetchPendingUserById(UUID id){
-        logger.info("Fetching user by id :" + id);
-        PendingUserModel pendingUserModel = this.pendingUser.findOne(Example.of(
-                        PendingUserModel.builder().id(id).build()
-                )
-        ).orElse(null);
-
-        return pendingUserModel != null ? pendingUserModel.toDomain() : null;
-    }
-
-    @Override
-    public List<PendingUser> fetchListOfPendingApprovalUsers(){
-        List<PendingUserModel> response = this.pendingUser.findAll(Example.of(
-                PendingUserModel.builder().status(Status.PENDING.toString()).build()
-        ));
-
-        if(response.isEmpty()) return Collections.emptyList();
-
-        return response.stream().map(PendingUserModel::toDomain).collect(Collectors.toList());
-    }
-    @Override
     public User save(UUID id){
         logger.info("Creating new user ");
         PendingUserModel pendingUserModel = this.pendingUser.findById(id).orElse(null);
@@ -87,14 +49,6 @@ public class UserDBAdapter implements UserPort {
 
     }
 
-    @Override
-    public PendingUser deny(UUID id){
-        PendingUserModel pendingUserModel = this.pendingUser.findById(id).orElse(null);
-        if(pendingUserModel != null){
-            pendingUserModel.setStatus("DENIED");
-            return this.pendingUser.save(pendingUserModel).toDomain();
-        }
-        return null;
-    }
+
 
 }

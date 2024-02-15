@@ -1,6 +1,7 @@
 package com.unitech.classapi.application.usecase;
 
-import com.unitech.classapi.application.port.UserPort;
+
+import com.unitech.classapi.application.port.PendingUserPort;
 import com.unitech.classapi.domain.entity.PendingUser;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.*;
@@ -10,12 +11,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CreatePendingUser {
 
-    private final UserPort userPort;
+    private final PendingUserPort userPort;
     private final Logger logger = LoggerFactory.getLogger(CreatePendingUser.class);
 
     public PendingUser execute(PendingUser pendingUser) {
         verifyUserExistByEmail(pendingUser.getEmail());
-        return this.userPort.savePendingUser(pendingUser);
+        return this.userPort.save(pendingUser);
     }
 
     private void verifyUserExistByEmail(String email) {

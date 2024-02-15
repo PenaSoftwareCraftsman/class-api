@@ -23,7 +23,7 @@ import static org.mockito.MockitoAnnotations.openMocks;
 
 public class CreatePendingUserTests {
     @Mock
-    private UserPort userPort;
+    private PendingUserPort pendingUserPort;
 
     @Mock
     private Logger logger;
@@ -42,8 +42,8 @@ public class CreatePendingUserTests {
         PendingUser pendingUser = UserFactory.buildPendingUser(UUID.randomUUID(), "John Doe",  "johndoe@email.com", "passwordhashed", Role.TEACHER, Status.PENDING);
 
 
-        when(userPort.fetchByEmail(pendingUser.getEmail())).thenReturn(null);
-        when(userPort.savePendingUser(any(PendingUser.class))).thenReturn(pendingUser);
+        when(pendingUserPort.fetchByEmail(pendingUser.getEmail())).thenReturn(null);
+        when(pendingUserPort.save(any(PendingUser.class))).thenReturn(pendingUser);
 
         PendingUser createdPendingUser = createPendingUser.execute(pendingUser);
 
@@ -54,14 +54,14 @@ public class CreatePendingUserTests {
     void shouldThrowAnExceptionWhenUserExist() {
         PendingUser pendingUser = UserFactory.buildPendingUser(UUID.randomUUID(), "John Doe",  "johndoe@email.com","passwordhashed", Role.TEACHER, Status.PENDING);
 
-        when(userPort.fetchByEmail(pendingUser.getEmail())).thenReturn(pendingUser);
+        when(pendingUserPort.fetchByEmail(pendingUser.getEmail())).thenReturn(pendingUser);
         assertThrows(RuntimeException.class, () -> {
             createPendingUser.execute(pendingUser);
         });
 
-        verify(userPort, times(1)).fetchByEmail(pendingUser.getEmail());
+        verify(pendingUserPort, times(1)).fetchByEmail(pendingUser.getEmail());
 
-        verify(userPort, never()).savePendingUser(pendingUser);
+        verify(pendingUserPort, never()).save(pendingUser);
     }
 
 }
