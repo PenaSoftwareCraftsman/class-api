@@ -1,6 +1,6 @@
 package com.unitech.classapi.application.factory;
 
-import com.unitech.classapi.domain.entity.PendingUser;
+import com.unitech.classapi.domain.entity.*;
 import com.unitech.classapi.domain.enums.Role;
 import com.unitech.classapi.domain.enums.Status;
 import com.unitech.classapi.infrastructure.security.utils.*;
@@ -19,6 +19,14 @@ public class UserFactory {
                 .status(status)
                 .build();
 
+    }
+
+    public static User buildUser(UUID id, String name, String password, String email, Role role){
+        return createTeacher(id, name, password, email);
+    }
+
+    private static Teacher createTeacher(UUID id, String name, String password, String email){
+        return Teacher.builder().id(id).name(name).password(password).email(email).build();
     }
 
 }

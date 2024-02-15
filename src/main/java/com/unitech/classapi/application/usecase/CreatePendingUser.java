@@ -18,7 +18,7 @@ public class CreatePendingUser {
 
         verifyUserExistByEmail(pendingUser.getEmail());
 
-        return this.userPort.save(pendingUser);
+        return this.userPort.savePendingUser(pendingUser);
     }
 
     private void verifyUserExistByEmail(String email){

@@ -43,7 +43,7 @@ public class CreatePendingUserTests {
 
 
         when(userPort.getByEmail(pendingUser.getEmail())).thenReturn(null);
-        when(userPort.save(any(PendingUser.class))).thenReturn(pendingUser);
+        when(userPort.savePendingUser(any(PendingUser.class))).thenReturn(pendingUser);
 
         PendingUser createdPendingUser = createPendingUser.execute(pendingUser);
 
@@ -61,7 +61,7 @@ public class CreatePendingUserTests {
 
         verify(userPort, times(1)).getByEmail(pendingUser.getEmail());
 
-        verify(userPort, never()).save(pendingUser);
+        verify(userPort, never()).savePendingUser(pendingUser);
     }
 
 }

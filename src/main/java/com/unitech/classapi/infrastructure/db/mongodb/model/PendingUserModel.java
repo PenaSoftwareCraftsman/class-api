@@ -1,7 +1,7 @@
 package com.unitech.classapi.infrastructure.db.mongodb.model;
 
 import com.unitech.classapi.application.factory.UserFactory;
-import com.unitech.classapi.domain.entity.PendingUser;
+import com.unitech.classapi.domain.entity.*;
 import com.unitech.classapi.domain.enums.Role;
 import com.unitech.classapi.domain.enums.Status;
 import lombok.Builder;
@@ -46,5 +46,14 @@ public class PendingUserModel {
                 Role.valueOf(this.role),
                 Status.valueOf(this.status)
         );
+    }
+
+    public UserModel toRegularUserModel(){
+        return UserModel.builder().
+                id(this.id).
+                name(this.name).
+                email(this.email).
+                password(this.password_hash).
+                role(this.role).build();
     }
 }
