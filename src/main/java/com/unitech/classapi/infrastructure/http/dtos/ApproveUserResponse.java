@@ -7,6 +7,9 @@ import lombok.*;
 import java.util.*;
 
 @Data
+@EqualsAndHashCode(of = "id")
+@Getter
+@AllArgsConstructor
 @Builder
 public class ApproveUserResponse {
     public UUID id;

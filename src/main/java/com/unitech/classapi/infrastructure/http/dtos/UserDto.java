@@ -7,7 +7,9 @@ import lombok.*;
 import java.util.*;
 
 @Data
-@Builder
+@EqualsAndHashCode(of = "id")
+@Getter
+@AllArgsConstructor
 public class UserDto {
     public UUID id;
     private String name;

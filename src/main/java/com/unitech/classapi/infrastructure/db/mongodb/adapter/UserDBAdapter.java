@@ -45,9 +45,12 @@ public class UserDBAdapter implements UserPort {
     }
 
     @Override
-    public PendingUser getByEmail(String email){
+    public PendingUser fetchByEmail(String email){
         logger.info("Fetching user by email :" + email);
-        PendingUserModel pendingUserModel = this.pendingUser.findByEmail(email);
+        PendingUserModel pendingUserModel = this.pendingUser.findOne(Example.of(
+                PendingUserModel.builder().email(email).build()
+            )
+        ).orElse(null);
 
         return pendingUserModel != null ? pendingUserModel.toDomain() : null;
     }

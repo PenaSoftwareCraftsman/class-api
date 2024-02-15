@@ -4,6 +4,7 @@ import com.unitech.classapi.application.usecase.*;
 import com.unitech.classapi.domain.entity.*;
 import com.unitech.classapi.infrastructure.http.dtos.*;
 import jakarta.validation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,9 +14,11 @@ import java.util.*;
 @RequestMapping("/auth")
 public class UserController {
 
-    CreatePendingUser createPendingUser;
+    @Autowired
+    private CreatePendingUser createPendingUser;
 
-    ApproveTeacher approveUser;
+    @Autowired
+    private ApproveTeacher approveUser;
 
     @PostMapping("/register")
     public ResponseEntity<PendentUserDto> register(

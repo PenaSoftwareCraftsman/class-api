@@ -2,6 +2,7 @@ package com.unitech.classapi.infrastructure.http.dtos;
 
 import com.unitech.classapi.domain.entity.*;
 import com.unitech.classapi.domain.enums.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.*;
@@ -16,11 +17,11 @@ public class PendentUserDto {
 
     private Status status;
 
-    public static PendentUserDto toDto(PendingUser pendingUser){
+    public static PendentUserDto toDto(@NotNull PendingUser pendingUser){
         return PendentUserDto.builder()
                 .id(pendingUser.getId())
                 .name(pendingUser.getName())
-                .password_hash(pendingUser.getPassword_hash())
+                .password_hash(pendingUser.getPassword())
                 .email(pendingUser.getEmail())
                 .role(pendingUser.getRole())
                 .status(pendingUser.getStatus())

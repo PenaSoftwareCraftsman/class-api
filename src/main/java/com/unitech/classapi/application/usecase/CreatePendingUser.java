@@ -11,21 +11,17 @@ import org.springframework.stereotype.Service;
 public class CreatePendingUser {
 
     private final UserPort userPort;
-
     private final Logger logger = LoggerFactory.getLogger(CreatePendingUser.class);
 
-    public PendingUser execute(PendingUser pendingUser){
-
+    public PendingUser execute(PendingUser pendingUser) {
         verifyUserExistByEmail(pendingUser.getEmail());
-
         return this.userPort.savePendingUser(pendingUser);
     }
 
-    private void verifyUserExistByEmail(String email){
-        if(this.userPort.getByEmail(email) != null){
-            logger.info("User already exist.");
-            throw new RuntimeException("User email already exist");
-        };
+    private void verifyUserExistByEmail(String email) {
+        if (this.userPort.fetchByEmail(email) != null) {
+            logger.info("User already exists.");
+            throw new RuntimeException("User email already exists");
+        }
     }
-
 }

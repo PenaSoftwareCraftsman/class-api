@@ -13,5 +13,5 @@ public interface UserPort {
 
     User findUserById(UUID id);
 
-    PendingUser getByEmail(String getByEmail);
+    PendingUser fetchByEmail(String getByEmail);
 }

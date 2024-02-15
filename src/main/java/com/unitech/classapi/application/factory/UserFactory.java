@@ -10,15 +10,16 @@ import java.util.UUID;
 public class UserFactory {
 
     public static PendingUser buildPendingUser(UUID id, String name, String email, String passwordHash, Role role, Status status){
+        UUID userId = id == null ? UUID.randomUUID() : id;
+
         return PendingUser.builder()
-                .id(id)
+                .id(userId)
                 .name(name)
                 .email(email)
-                .password_hash(SecurityConfig.encodePassword(passwordHash))
+                .password(Password.create(passwordHash))
                 .role(role)
                 .status(status)
                 .build();
-
     }
 
     public static User buildUser(UUID id, String name, String password, String email, Role role){

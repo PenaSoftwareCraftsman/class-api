@@ -15,8 +15,12 @@ public class PendingUser {
 
     public UUID id;
     private String name;
-    private String password_hash;
+    private Password password;
     private String email;
     private Role role;
     private Status status;
+
+    public String getPassword(){
+        return password.getContent();
+    }
 }

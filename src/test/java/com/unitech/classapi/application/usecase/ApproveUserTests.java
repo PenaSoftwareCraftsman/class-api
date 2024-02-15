@@ -27,7 +27,7 @@ public class ApproveUserTests {
     @Test
     @DisplayName("Should create a user when a pending user its approved")
     void shouldCreateANewUserWhenAPendingUserItsApproved(){
-        PendingUser pendingUser = UserFactory.buildPendingUser(UUID.randomUUID(), "John Doe",  "johndoe@email.com","passwordhashed", Role.Teacher, Status.PENDING);
+        PendingUser pendingUser = UserFactory.buildPendingUser(UUID.randomUUID(), "John Doe",  "johndoe@email.com","passwordhashed", Role.TEACHER, Status.PENDING);
 
 
     }

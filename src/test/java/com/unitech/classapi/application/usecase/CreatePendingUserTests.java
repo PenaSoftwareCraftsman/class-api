@@ -39,10 +39,10 @@ public class CreatePendingUserTests {
     @Test
     @DisplayName("Should create a new pending user")
     void shouldCreateNewPendingUserWithTeacherRole(){
-        PendingUser pendingUser = UserFactory.buildPendingUser(UUID.randomUUID(), "John Doe",  "johndoe@email.com","passwordhashed", Role.Teacher, Status.PENDING);
+        PendingUser pendingUser = UserFactory.buildPendingUser(UUID.randomUUID(), "John Doe",  "johndoe@email.com", "passwordhashed", Role.TEACHER, Status.PENDING);
 
 
-        when(userPort.getByEmail(pendingUser.getEmail())).thenReturn(null);
+        when(userPort.fetchByEmail(pendingUser.getEmail())).thenReturn(null);
         when(userPort.savePendingUser(any(PendingUser.class))).thenReturn(pendingUser);
 
         PendingUser createdPendingUser = createPendingUser.execute(pendingUser);
@@ -52,14 +52,14 @@ public class CreatePendingUserTests {
 
     @Test
     void shouldThrowAnExceptionWhenUserExist() {
-        PendingUser pendingUser = UserFactory.buildPendingUser(UUID.randomUUID(), "John Doe",  "johndoe@email.com","passwordhashed", Role.Teacher, Status.PENDING);
+        PendingUser pendingUser = UserFactory.buildPendingUser(UUID.randomUUID(), "John Doe",  "johndoe@email.com","passwordhashed", Role.TEACHER, Status.PENDING);
 
-        when(userPort.getByEmail(pendingUser.getEmail())).thenReturn(pendingUser);
+        when(userPort.fetchByEmail(pendingUser.getEmail())).thenReturn(pendingUser);
         assertThrows(RuntimeException.class, () -> {
             createPendingUser.execute(pendingUser);
         });
 
-        verify(userPort, times(1)).getByEmail(pendingUser.getEmail());
+        verify(userPort, times(1)).fetchByEmail(pendingUser.getEmail());
 
         verify(userPort, never()).savePendingUser(pendingUser);
     }
