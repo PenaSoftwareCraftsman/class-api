@@ -14,4 +14,6 @@ public interface UserPort {
     User findUserById(UUID id);
 
     PendingUser fetchByEmail(String getByEmail);
+
+    List<PendingUser> fetchListOfPendingApprovalUsers();
 }

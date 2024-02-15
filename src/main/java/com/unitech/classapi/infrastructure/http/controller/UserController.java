@@ -20,6 +20,8 @@ public class UserController {
     @Autowired
     private ApproveTeacher approveUser;
 
+    @Autowired ListPendingApproveUsers listPendingApproveUsers;
+
     @PostMapping("/register")
     public ResponseEntity<PendentUserDto> register(
             @RequestBody @Valid NewPendingUserRequestDTO newPendingUser
@@ -38,4 +40,12 @@ public class UserController {
 
         return ResponseEntity.ok(user);
     }
+
+    @GetMapping("/approve/pending")
+    public ResponseEntity<List<PendentUserDto>> fetchPendingApproval(){
+        List<PendingUser> listPendingApprovalUsers = listPendingApproveUsers.execute();
+
+        return ResponseEntity.ok(PendentUserDto.toDto(listPendingApprovalUsers));
+    }
+
 }

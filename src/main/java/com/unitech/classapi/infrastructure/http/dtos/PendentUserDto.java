@@ -27,4 +27,8 @@ public class PendentUserDto {
                 .status(pendingUser.getStatus())
                 .build();
     }
+
+    public static List<PendentUserDto> toDto(List<PendingUser> pendingUsers){
+        return pendingUsers.stream().map(PendentUserDto::toDto).toList();
+    }
 }
