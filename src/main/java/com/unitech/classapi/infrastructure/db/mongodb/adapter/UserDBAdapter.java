@@ -58,6 +58,17 @@ public class UserDBAdapter implements UserPort {
     }
 
     @Override
+    public PendingUser fetchPendingUserById(UUID id){
+        logger.info("Fetching user by id :" + id);
+        PendingUserModel pendingUserModel = this.pendingUser.findOne(Example.of(
+                        PendingUserModel.builder().id(id).build()
+                )
+        ).orElse(null);
+
+        return pendingUserModel != null ? pendingUserModel.toDomain() : null;
+    }
+
+    @Override
     public List<PendingUser> fetchListOfPendingApprovalUsers(){
         List<PendingUserModel> response = this.pendingUser.findAll(Example.of(
                 PendingUserModel.builder().status(Status.PENDING.toString()).build()
@@ -74,6 +85,16 @@ public class UserDBAdapter implements UserPort {
 
         return pendingUserModel == null ? null : this.user.save(pendingUserModel.toRegularUserModel()).toDomain();
 
+    }
+
+    @Override
+    public PendingUser deny(UUID id){
+        PendingUserModel pendingUserModel = this.pendingUser.findById(id).orElse(null);
+        if(pendingUserModel != null){
+            pendingUserModel.setStatus("DENIED");
+            return this.pendingUser.save(pendingUserModel).toDomain();
+        }
+        return null;
     }
 
 }

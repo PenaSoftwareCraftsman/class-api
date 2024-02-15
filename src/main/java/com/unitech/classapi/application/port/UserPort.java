@@ -16,4 +16,8 @@ public interface UserPort {
     PendingUser fetchByEmail(String getByEmail);
 
     List<PendingUser> fetchListOfPendingApprovalUsers();
+
+    PendingUser fetchPendingUserById(UUID id);
+
+    public PendingUser deny(UUID id);
 }

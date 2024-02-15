@@ -20,6 +20,9 @@ public class UserController {
     @Autowired
     private ApproveTeacher approveUser;
 
+    @Autowired
+    private DenyUser denyUser;
+
     @Autowired ListPendingApproveUsers listPendingApproveUsers;
 
     @PostMapping("/register")
@@ -32,7 +35,7 @@ public class UserController {
         return ResponseEntity.ok(PendentUserDto.toDto(pendingUser));
     }
 
-    @PostMapping("/approve/{id}")
+    @PutMapping("/approve/{id}")
     public ResponseEntity<ApproveUserResponse> approve(
             @PathVariable("id") UUID id
     ){
@@ -48,4 +51,12 @@ public class UserController {
         return ResponseEntity.ok(PendentUserDto.toDto(listPendingApprovalUsers));
     }
 
+    @PutMapping("/deny/{id}")
+    public ResponseEntity<PendentUserDto> deny(
+            @PathVariable("id") UUID id
+    ){
+        PendentUserDto user = PendentUserDto.toDto(denyUser.execute(id));
+
+        return ResponseEntity.ok(user);
+    }
 }
