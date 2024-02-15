@@ -8,7 +8,7 @@ import lombok.*;
 import java.util.*;
 @Data
 @Builder
-public class PendentUserDto {
+public class PendingUserDto {
     public UUID id;
     private String name;
     private String password_hash;
@@ -17,8 +17,8 @@ public class PendentUserDto {
 
     private Status status;
 
-    public static PendentUserDto toDto(@NotNull PendingUser pendingUser){
-        return PendentUserDto.builder()
+    public static PendingUserDto toDto(@NotNull PendingUser pendingUser){
+        return PendingUserDto.builder()
                 .id(pendingUser.getId())
                 .name(pendingUser.getName())
                 .password_hash(pendingUser.getPassword())
@@ -28,7 +28,7 @@ public class PendentUserDto {
                 .build();
     }
 
-    public static List<PendentUserDto> toDto(List<PendingUser> pendingUsers){
-        return pendingUsers.stream().map(PendentUserDto::toDto).toList();
+    public static List<PendingUserDto> toDto(List<PendingUser> pendingUsers){
+        return pendingUsers.stream().map(PendingUserDto::toDto).toList();
     }
 }

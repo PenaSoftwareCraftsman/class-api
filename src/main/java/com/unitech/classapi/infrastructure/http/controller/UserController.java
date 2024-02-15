@@ -26,13 +26,13 @@ public class UserController {
     @Autowired ListPendingApproveUsers listPendingApproveUsers;
 
     @PostMapping("/register")
-    public ResponseEntity<PendentUserDto> register(
+    public ResponseEntity<PendingUserDto> register(
             @RequestBody @Valid NewPendingUserRequestDTO newPendingUser
     ){
 
         PendingUser pendingUser = createPendingUser.execute(newPendingUser.toDomain());
 
-        return ResponseEntity.ok(PendentUserDto.toDto(pendingUser));
+        return ResponseEntity.ok(PendingUserDto.toDto(pendingUser));
     }
 
     @PutMapping("/approve/{id}")
@@ -45,17 +45,17 @@ public class UserController {
     }
 
     @GetMapping("/approve/pending")
-    public ResponseEntity<List<PendentUserDto>> fetchPendingApproval(){
+    public ResponseEntity<List<PendingUserDto>> fetchPendingApproval(){
         List<PendingUser> listPendingApprovalUsers = listPendingApproveUsers.execute();
 
-        return ResponseEntity.ok(PendentUserDto.toDto(listPendingApprovalUsers));
+        return ResponseEntity.ok(PendingUserDto.toDto(listPendingApprovalUsers));
     }
 
     @PutMapping("/deny/{id}")
-    public ResponseEntity<PendentUserDto> deny(
+    public ResponseEntity<PendingUserDto> deny(
             @PathVariable("id") UUID id
     ){
-        PendentUserDto user = PendentUserDto.toDto(denyUser.execute(id));
+        PendingUserDto user = PendingUserDto.toDto(denyUser.execute(id));
 
         return ResponseEntity.ok(user);
     }
