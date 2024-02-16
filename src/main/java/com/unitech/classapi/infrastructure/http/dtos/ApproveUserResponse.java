@@ -22,7 +22,7 @@ public class ApproveUserResponse {
         return ApproveUserResponse.builder()
                 .id(user.getId())
                 .name(user.getName())
-                .password(user.getEmail())
+                .password(user.getPassword())
                 .email(user.getEmail())
                 .role(user.getRole())
                 .build();

@@ -3,22 +3,20 @@ package com.unitech.classapi.application.factory;
 import com.unitech.classapi.domain.entity.*;
 import com.unitech.classapi.domain.enums.Role;
 import com.unitech.classapi.domain.enums.Status;
-import com.unitech.classapi.infrastructure.security.utils.*;
-
 import java.util.UUID;
-
-import static com.unitech.classapi.domain.enums.Role.TEACHER;
 
 public class UserFactory {
 
-    public static PendingUser buildPendingUser(UUID id, String name, String email, String passwordHash, Role role, Status status){
+    public static PendingUser buildPendingUser(UUID id, String name, String email, String password, Role role, Status status){
         UUID userId = id == null ? UUID.randomUUID() : id;
+
+        Password passwordHash = Password.create(password);
 
         return PendingUser.builder()
                 .id(userId)
                 .name(name)
                 .email(email)
-                .password(Password.create(passwordHash))
+                .password(passwordHash)
                 .role(role)
                 .status(status)
                 .build();

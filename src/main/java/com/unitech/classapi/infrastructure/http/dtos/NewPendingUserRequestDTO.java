@@ -14,13 +14,13 @@ public class NewPendingUserRequestDTO {
 
     private String name;
 
-    private String password_hash;
+    private String password;
     @Email
     private String email;
     private Role role;
 
 
     public PendingUser toDomain() {
-        return UserFactory.buildPendingUser(null, name, email, password_hash, role, Status.PENDING);
+        return UserFactory.buildPendingUser(null, name, email, password, role, Status.PENDING);
     }
 }

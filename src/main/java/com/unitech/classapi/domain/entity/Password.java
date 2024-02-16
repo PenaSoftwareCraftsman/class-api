@@ -17,4 +17,8 @@ public class Password {
         return new Password(hashedPassword);
     }
 
+    public static Boolean validate(String password, String passwordHash){
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.matches(password, passwordHash);
+    }
 }

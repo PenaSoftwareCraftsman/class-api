@@ -1,4 +1,4 @@
-package com.unitech.classapi.infrastructure.http.controller;
+package com.unitech.classapi.infrastructure.http.controller.user;
 
 import com.unitech.classapi.application.usecase.*;
 import com.unitech.classapi.domain.entity.*;
@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    private CreatePendingUser createPendingUser;
 
     @Autowired
     private ApproveTeacher approveUser;
@@ -25,15 +23,6 @@ public class UserController {
 
     @Autowired ListPendingApproveUsers listPendingApproveUsers;
 
-    @PostMapping("/register")
-    public ResponseEntity<PendingUserDto> register(
-            @RequestBody @Valid NewPendingUserRequestDTO newPendingUser
-    ){
-
-        PendingUser pendingUser = createPendingUser.execute(newPendingUser.toDomain());
-
-        return ResponseEntity.ok(PendingUserDto.toDto(pendingUser));
-    }
 
     @PutMapping("/approve/{id}")
     public ResponseEntity<ApproveUserResponse> approve(
@@ -44,7 +33,7 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping("/approve/pending")
+    @GetMapping("/pendent/list")
     public ResponseEntity<List<PendingUserDto>> fetchPendingApproval(){
         List<PendingUser> listPendingApprovalUsers = listPendingApproveUsers.execute();
 

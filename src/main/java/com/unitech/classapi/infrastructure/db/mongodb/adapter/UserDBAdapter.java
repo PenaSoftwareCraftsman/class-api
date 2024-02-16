@@ -2,7 +2,6 @@ package com.unitech.classapi.infrastructure.db.mongodb.adapter;
 
 import com.unitech.classapi.application.port.UserPort;
 import com.unitech.classapi.domain.entity.*;
-import com.unitech.classapi.domain.enums.Status;
 import com.unitech.classapi.infrastructure.db.mongodb.model.*;
 import com.unitech.classapi.infrastructure.db.mongodb.repository.*;
 import org.slf4j.*;
@@ -11,8 +10,6 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
 @Component
 public class UserDBAdapter implements UserPort {
 
@@ -38,6 +35,16 @@ public class UserDBAdapter implements UserPort {
                 .orElse(null);
 
         return user != null ? user.toDomain() : null;
+    }
+
+    @Override
+    public User fetchByEmail(String email){
+        UserModel userModel = this.user.findOne(Example.of(
+                        UserModel.builder().email(email).build()
+                )
+        ).orElse(null);
+
+        return userModel != null ? userModel.toDomain() : null;
     }
 
     @Override

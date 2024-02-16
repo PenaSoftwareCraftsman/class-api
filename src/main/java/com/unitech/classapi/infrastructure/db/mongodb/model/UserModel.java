@@ -26,7 +26,7 @@ public class UserModel {
                 .id(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())
-                .password(user.getPassword_hash())
+                .password(user.getPassword())
                 .role(user.getRole().toString())
                 .build();
 

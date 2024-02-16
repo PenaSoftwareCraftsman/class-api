@@ -12,4 +12,6 @@ public interface UserPort {
 
     User findUserById(UUID id);
 
+    User fetchByEmail(String email);
+
 }
