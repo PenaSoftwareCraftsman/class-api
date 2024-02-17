@@ -10,6 +10,8 @@ import com.unitech.classapi.infrastructure.http.dtos.UpdateLessonDTO;
 import com.unitech.classapi.infrastructure.http.dtos.UpdateLessonResponseDTO;
 import com.unitech.classapi.infrastructure.http.dtos.LessonDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +30,7 @@ public class LessonController {
     private ListLessons listLessons;
 
     @PostMapping("/create")
+    @CacheEvict("lessons")
     public ResponseEntity<CreateLessonResponseDTO> createLesson(
             @RequestBody CreateLessonRequestDTO createLessonDTO
     ) {
@@ -36,6 +39,7 @@ public class LessonController {
     }
 
     @PutMapping("/update/{id}")
+    @CacheEvict("lessons")
     public ResponseEntity<UpdateLessonResponseDTO> updateLesson(
             @PathVariable UUID id,
             @RequestBody UpdateLessonDTO lessonDTO
@@ -45,6 +49,7 @@ public class LessonController {
     }
 
     @GetMapping()
+    @Cacheable("lessons")
     public ResponseEntity<List<LessonDTO>> fetchLessonsByTeacher(
             @AuthenticationPrincipal(expression = "id") UUID id
     ){
