@@ -1,6 +1,5 @@
 package com.unitech.classapi.infrastructure.security;
 
-import com.unitech.classapi.application.port.PendingUserPort;
 import com.unitech.classapi.application.port.UserPort;
 import com.unitech.classapi.domain.entity.DecodedToken;
 import com.unitech.classapi.domain.entity.User;
@@ -12,7 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -35,8 +33,8 @@ public class SecurityFilter extends OncePerRequestFilter {
             User user = this.userPort.fetchByEmail(decodedToken.getEmail());
             if(user == null) throw new RuntimeException("User not founded");
             var authentication = new UsernamePasswordAuthenticationToken(user, "ROLE_" + user.getRole(), user.getAuthorities());
-
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            request.setAttribute("user", authentication.getPrincipal());
         }
         filterChain.doFilter(request, response);
     }
