@@ -29,7 +29,7 @@ public class PendingUserModel {
         return PendingUserModel.builder()
                 .id(user.getId())
                 .name(user.getName())
-                .password_hash(user.getPassword().toString())
+                .password_hash(user.getPassword())
                 .email(user.getEmail())
                 .role(user.getRole().toString())
                 .status(user.getStatus().toString())
