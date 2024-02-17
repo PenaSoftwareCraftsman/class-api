@@ -18,6 +18,8 @@ public class UserController {
     @Autowired
     private ApproveTeacher approveUser;
 
+    @Autowired ListDeniedUsers listDeniedUsers;
+
     @Autowired
     private DenyUser denyUser;
 
@@ -38,6 +40,13 @@ public class UserController {
         List<PendingUser> listPendingApprovalUsers = listPendingApproveUsers.execute();
 
         return ResponseEntity.ok(PendingUserDto.toDto(listPendingApprovalUsers));
+    }
+
+    @GetMapping("/denied")
+    public ResponseEntity<List<PendingUserDto>> fetchDeniedList(){
+        List<PendingUser> deniedUserList = listDeniedUsers.execute();
+
+        return ResponseEntity.ok(PendingUserDto.toDto(deniedUserList));
     }
 
     @PutMapping("/deny/{id}")

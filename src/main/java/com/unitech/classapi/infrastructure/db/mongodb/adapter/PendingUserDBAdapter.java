@@ -56,6 +56,17 @@ public class PendingUserDBAdapter implements PendingUserPort {
     }
 
     @Override
+    public List<PendingUser> fetchListOfDeniedUsers(){
+        List<PendingUserModel> response = this.pendingUser.findAll(Example.of(
+                PendingUserModel.builder().status(Status.DENIED.toString()).build()
+        ));
+
+        if(response.isEmpty()) return Collections.emptyList();
+
+        return response.stream().map(PendingUserModel::toDomain).collect(Collectors.toList());
+    }
+
+    @Override
     public PendingUser deny(UUID id){
         PendingUserModel pendingUserModel = this.pendingUser.findById(id).orElse(null);
         if(pendingUserModel != null){

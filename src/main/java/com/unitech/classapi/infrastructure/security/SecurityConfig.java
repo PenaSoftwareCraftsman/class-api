@@ -33,6 +33,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/lesson/**").hasRole("TEACHER")
                         .requestMatchers(HttpMethod.PUT, "/lesson/**").hasRole("TEACHER")
                         .requestMatchers(HttpMethod.GET, "/pendent/list").hasRole("SECRETARY")
+                        .requestMatchers(HttpMethod.GET, "/denied").hasRole("SECRETARY")
                         .requestMatchers(HttpMethod.PUT, "/deny/**").hasRole("SECRETARY")
                         .requestMatchers(HttpMethod.PUT, "/approve/**").hasRole("SECRETARY")
                         .anyRequest().authenticated()
