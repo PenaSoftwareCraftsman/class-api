@@ -57,11 +57,10 @@ public class UserController {
 
     @PutMapping("/deny/{id}")
     @CacheEvict(value = {"denied-list", "pending-approval-list"}, allEntries = true)
-    public ResponseEntity<PendingUserDto> deny(
+    public ResponseEntity<Void> deny(
             @PathVariable("id") @Valid UUID id
     ){
-        PendingUserDto user = PendingUserDto.toDto(denyUser.execute(id));
-
-        return ResponseEntity.ok(user);
+        denyUser.execute(id);
+        return ResponseEntity.ok().build();
     }
 }

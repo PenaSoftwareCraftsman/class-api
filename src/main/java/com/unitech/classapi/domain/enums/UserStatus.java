@@ -1,7 +1,7 @@
 package com.unitech.classapi.domain.enums;
 
-public enum Status {
+public enum UserStatus {
     PENDING,
-    ACCEPTED,
+    APPROVED,
     DENIED
 }

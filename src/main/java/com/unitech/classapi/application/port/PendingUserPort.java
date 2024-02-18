@@ -19,5 +19,5 @@ public interface PendingUserPort {
 
     List<PendingUser> fetchListOfDeniedUsers();
 
-    PendingUser deny(UUID id);
+    void deny(UUID id);
 }

@@ -2,9 +2,10 @@ package com.unitech.classapi.infrastructure.db.mongodb.adapter;
 
 import com.unitech.classapi.application.port.PendingUserPort;
 import com.unitech.classapi.domain.entity.PendingUser;
-import com.unitech.classapi.domain.enums.Status;
+import com.unitech.classapi.domain.enums.UserStatus;
 import com.unitech.classapi.infrastructure.db.mongodb.model.PendingUserModel;
 import com.unitech.classapi.infrastructure.db.mongodb.repository.UserPendingDbRepository;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Repository;
@@ -38,7 +39,7 @@ public class PendingUserDBAdapter implements PendingUserPort {
     @Override
     public List<PendingUser> fetchListOfPendingApprovalUsers(){
         List<PendingUserModel> response = this.pendingUser.findAll(Example.of(
-                PendingUserModel.builder().status(Status.PENDING.toString()).build()
+                PendingUserModel.builder().status(UserStatus.PENDING.toString()).build()
         ));
 
         if(response.isEmpty()) return Collections.emptyList();
@@ -58,7 +59,7 @@ public class PendingUserDBAdapter implements PendingUserPort {
     @Override
     public List<PendingUser> fetchListOfDeniedUsers(){
         List<PendingUserModel> response = this.pendingUser.findAll(Example.of(
-                PendingUserModel.builder().status(Status.DENIED.toString()).build()
+                PendingUserModel.builder().status(UserStatus.DENIED.toString()).build()
         ));
 
         if(response.isEmpty()) return Collections.emptyList();
@@ -67,12 +68,7 @@ public class PendingUserDBAdapter implements PendingUserPort {
     }
 
     @Override
-    public PendingUser deny(UUID id){
-        PendingUserModel pendingUserModel = this.pendingUser.findById(id).orElse(null);
-        if(pendingUserModel != null){
-            pendingUserModel.setStatus("DENIED");
-            return this.pendingUser.save(pendingUserModel).toDomain();
-        }
-        return null;
+    public void deny(@NotNull UUID id){
+        this.pendingUser.deny(id);
     }
 }

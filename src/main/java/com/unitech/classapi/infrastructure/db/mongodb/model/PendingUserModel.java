@@ -3,7 +3,7 @@ package com.unitech.classapi.infrastructure.db.mongodb.model;
 import com.unitech.classapi.application.factory.UserFactory;
 import com.unitech.classapi.domain.entity.*;
 import com.unitech.classapi.domain.enums.Role;
-import com.unitech.classapi.domain.enums.Status;
+import com.unitech.classapi.domain.enums.UserStatus;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -44,7 +44,7 @@ public class PendingUserModel {
                 this.email,
                 this.password_hash,
                 Role.valueOf(this.role),
-                Status.valueOf(this.status)
+                UserStatus.valueOf(this.status)
         );
     }
 
