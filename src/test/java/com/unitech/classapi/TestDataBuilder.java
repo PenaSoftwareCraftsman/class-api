@@ -2,7 +2,10 @@ package com.unitech.classapi;
 
 import com.unitech.classapi.domain.entity.Lesson;
 import com.unitech.classapi.domain.entity.Password;
+import com.unitech.classapi.domain.entity.PendingUser;
 import com.unitech.classapi.domain.entity.Teacher;
+import com.unitech.classapi.domain.enums.Role;
+import com.unitech.classapi.domain.enums.Status;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -29,4 +32,14 @@ public class TestDataBuilder {
                 .build();
     }
 
+    public static PendingUser generateRegistrationForTeacher(){
+        return PendingUser.builder()
+                .id(UUID.randomUUID())
+                .name("John Doe")
+                .password(Password.create("password123"))
+                .email("john.doe@example.com")
+                .role(Role.TEACHER)
+                .status(Status.PENDING)
+                .build();
+    }
 }

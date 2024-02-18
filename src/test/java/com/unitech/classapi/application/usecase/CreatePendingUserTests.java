@@ -1,5 +1,6 @@
 package com.unitech.classapi.application.usecase;
 
+import com.unitech.classapi.TestDataBuilder;
 import com.unitech.classapi.application.factory.*;
 import com.unitech.classapi.application.port.*;
 import com.unitech.classapi.domain.entity.*;
@@ -39,7 +40,7 @@ public class CreatePendingUserTests {
     @Test
     @DisplayName("Should create a new pending user")
     void shouldCreateNewPendingUserWithTeacherRole(){
-        PendingUser pendingUser = UserFactory.buildPendingUser(UUID.randomUUID(), "John Doe",  "johndoe@email.com", "passwordhashed", Role.TEACHER, Status.PENDING);
+        PendingUser pendingUser = TestDataBuilder.generateRegistrationForTeacher();
 
 
         when(pendingUserPort.fetchByEmail(pendingUser.getEmail())).thenReturn(null);
@@ -52,7 +53,7 @@ public class CreatePendingUserTests {
 
     @Test
     void shouldThrowAnExceptionWhenUserExist() {
-        PendingUser pendingUser = UserFactory.buildPendingUser(UUID.randomUUID(), "John Doe",  "johndoe@email.com","passwordhashed", Role.TEACHER, Status.PENDING);
+        PendingUser pendingUser = TestDataBuilder.generateRegistrationForTeacher();
 
         when(pendingUserPort.fetchByEmail(pendingUser.getEmail())).thenReturn(pendingUser);
         assertThrows(RuntimeException.class, () -> {
