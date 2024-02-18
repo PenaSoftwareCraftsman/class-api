@@ -13,15 +13,14 @@ public class CreateLessonRequestDTO {
     private String title;
     private String description;
     private Date date;
-    private UUID teacher;
 
-    public Lesson toDomain(){
+    public Lesson toDomain(UUID teacherId){
         return Lesson.builder()
                 .id(UUID.randomUUID())
                 .title(this.title)
                 .description(this.description)
                 .date(this.date)
-                .teacher(this.teacher)
+                .teacher(teacherId)
                 .build();
     }
 }

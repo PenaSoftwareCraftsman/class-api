@@ -9,6 +9,7 @@ import com.unitech.classapi.infrastructure.http.dtos.CreateLessonResponseDTO;
 import com.unitech.classapi.infrastructure.http.dtos.UpdateLessonDTO;
 import com.unitech.classapi.infrastructure.http.dtos.UpdateLessonResponseDTO;
 import com.unitech.classapi.infrastructure.http.dtos.LessonDTO;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -32,9 +33,11 @@ public class LessonController {
     @PostMapping("/create")
     @CacheEvict(value = "lessons", allEntries = true)
     public ResponseEntity<CreateLessonResponseDTO> createLesson(
+            @AuthenticationPrincipal(expression = "id") @Valid UUID teacherID,
             @RequestBody CreateLessonRequestDTO createLessonDTO
+
     ) {
-        Lesson lesson = createLesson.execute(createLessonDTO.toDomain());
+        Lesson lesson = createLesson.execute(createLessonDTO.toDomain(teacherID));
         return ResponseEntity.ok(CreateLessonResponseDTO.toDTO(lesson));
     }
 
