@@ -10,8 +10,7 @@ import java.util.UUID;
 @Repository
 public interface UserPendingDbRepository extends MongoRepository<PendingUserModel, UUID> {
 
-
-    @Query("{'_id': ?0, 'status': 'DENIED")
-    void deny(@NotNull UUID id);
+    @Query("{'_id': ?0, 'status': ?1}")
+    void setStatus(@NotNull UUID id, @NotNull String status);
 
 }

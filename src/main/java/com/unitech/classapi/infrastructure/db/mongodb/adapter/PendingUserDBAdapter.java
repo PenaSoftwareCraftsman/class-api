@@ -69,6 +69,6 @@ public class PendingUserDBAdapter implements PendingUserPort {
 
     @Override
     public void deny(@NotNull UUID id){
-        this.pendingUser.deny(id);
+        this.pendingUser.setStatus(id, UserStatus.DENIED.toString());
     }
 }
