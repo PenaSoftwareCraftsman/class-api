@@ -1,9 +1,6 @@
 package com.unitech.classapi;
 
-import com.unitech.classapi.domain.entity.Lesson;
-import com.unitech.classapi.domain.entity.Password;
-import com.unitech.classapi.domain.entity.PendingUser;
-import com.unitech.classapi.domain.entity.Teacher;
+import com.unitech.classapi.domain.entity.*;
 import com.unitech.classapi.domain.enums.Role;
 import com.unitech.classapi.domain.enums.Status;
 
@@ -20,8 +17,9 @@ public class TestDataBuilder {
                 .email("test@gmail.com")
                 .password(Password.create("12345678").toString())
                 .build();
-
     }
+
+
 
     public static Lesson generateLesson(){
         return Lesson.builder()
@@ -41,5 +39,12 @@ public class TestDataBuilder {
                 .role(Role.TEACHER)
                 .status(Status.PENDING)
                 .build();
+    }
+
+    public static  User generateNewUserByRegistration(PendingUser registration){
+        return switch (registration.getRole()){
+            case TEACHER -> Teacher.builder().id(registration.getId()).name(registration.getName()).password(registration.getPassword()).email(registration.getEmail()).build();
+            case SECRETARY -> Secretary.builder().id(registration.getId()).name(registration.getName()).password(registration.getPassword()).email(registration.getEmail()).build();
+        };
     }
 }
