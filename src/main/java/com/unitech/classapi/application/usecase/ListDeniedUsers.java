@@ -6,8 +6,8 @@ import com.unitech.classapi.domain.entity.PendingUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,18 +17,15 @@ public class ListDeniedUsers {
     public List<PendingUser> execute(){
         List<PendingUser> response = userPort.fetchListOfDeniedUsers();
 
-        List<PendingUser> deniedUserList = new ArrayList<>();
-
-        response.forEach(user -> deniedUserList.add(
-                UserFactory.buildPendingUser(
+        return response.stream()
+                .map(user -> UserFactory.buildPendingUser(
                         user.getId(),
                         user.getName(),
                         user.getEmail(),
                         user.getPassword(),
                         user.getRole(),
                         user.getStatus()
-                )
-        ));
-        return deniedUserList;
+                ))
+                .collect(Collectors.toList());
     }
 }

@@ -14,10 +14,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LoginUser {
 
-    @Autowired
     private final UserPort userPort;
 
-    @Autowired
     private final JwtUtil jwtUtil;
 
     public Token execute(String email, String password){

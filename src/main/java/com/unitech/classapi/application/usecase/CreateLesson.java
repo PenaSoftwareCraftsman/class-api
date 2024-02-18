@@ -19,7 +19,7 @@ public class CreateLesson {
     public Lesson execute(Lesson lesson){
         Teacher teacher = fetchTeacher(lesson.getTeacher());
 
-        if(teacher == null) throw new RuntimeException("Teacher with {} id not founded" + lesson.getId());
+        if(teacher == null) throw new RuntimeException(String.format("Teacher with %s id not founded", lesson.getTeacher()));
 
         return this.lessonPort.save(lesson);
     }

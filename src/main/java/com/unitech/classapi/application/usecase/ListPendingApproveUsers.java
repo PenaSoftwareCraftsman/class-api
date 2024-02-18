@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,18 +19,15 @@ public class ListPendingApproveUsers {
     public List<PendingUser> execute(){
         List<PendingUser> response = userPort.fetchListOfPendingApprovalUsers();
 
-        List<PendingUser> pendingApprovalUserList = new ArrayList<>();
-
-        response.forEach(user -> pendingApprovalUserList.add(
-                UserFactory.buildPendingUser(
+        return response.stream()
+                .map(user -> UserFactory.buildPendingUser(
                         user.getId(),
                         user.getName(),
                         user.getEmail(),
                         user.getPassword(),
                         user.getRole(),
                         user.getStatus()
-                )
-        ));
-        return pendingApprovalUserList;
+                ))
+                .collect(Collectors.toList());
     }
 }
