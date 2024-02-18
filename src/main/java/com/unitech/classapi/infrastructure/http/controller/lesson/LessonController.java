@@ -30,7 +30,7 @@ public class LessonController {
     private ListLessons listLessons;
 
     @PostMapping("/create")
-    @CacheEvict("lessons")
+    @CacheEvict(value = "lessons", allEntries = true)
     public ResponseEntity<CreateLessonResponseDTO> createLesson(
             @RequestBody CreateLessonRequestDTO createLessonDTO
     ) {
@@ -39,7 +39,7 @@ public class LessonController {
     }
 
     @PutMapping("/update/{id}")
-    @CacheEvict("lessons")
+    @CacheEvict(value = "lessons", allEntries = true)
     public ResponseEntity<UpdateLessonResponseDTO> updateLesson(
             @PathVariable UUID id,
             @RequestBody UpdateLessonDTO lessonDTO
@@ -49,7 +49,7 @@ public class LessonController {
     }
 
     @GetMapping()
-    @Cacheable("lessons")
+    @Cacheable(value = "lessons")
     public ResponseEntity<List<LessonDTO>> fetchLessonsByTeacher(
             @AuthenticationPrincipal(expression = "id") UUID id
     ){

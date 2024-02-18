@@ -17,7 +17,7 @@ public class ApproveUserTests {
     private UserPort userPort;
 
     @InjectMocks
-    private ApproveTeacher approveUser;
+    private ApproveUser approveUser;
 
     @BeforeEach
     void setUp() {

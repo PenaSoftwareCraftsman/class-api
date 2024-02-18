@@ -18,7 +18,7 @@ public class UserController {
 
 
     @Autowired
-    private ApproveTeacher approveUser;
+    private ApproveUser approveUser;
 
     @Autowired ListDeniedUsers listDeniedUsers;
 
@@ -29,7 +29,7 @@ public class UserController {
 
 
     @PutMapping("/approve/{id}")
-    @CacheEvict(value={"pending-approval-list", "denied-list"})
+    @CacheEvict(value={"pending-approval-list", "denied-list"}, allEntries = true)
     public ResponseEntity<ApproveUserResponse> approve(
             @PathVariable("id") @Valid UUID id
     ){
@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping("/pendent/list")
-    @Cacheable("pending-approval-list")
+    @Cacheable(value = "pending-approval-list")
     public ResponseEntity<List<PendingUserDto>> fetchPendingApproval(){
         List<PendingUser> listPendingApprovalUsers = listPendingApproveUsers.execute();
 
@@ -48,7 +48,7 @@ public class UserController {
 
 
     @GetMapping("/denied")
-    @Cacheable("denied-list")
+    @Cacheable(value = "denied-list")
     public ResponseEntity<List<PendingUserDto>> fetchDeniedList(){
         List<PendingUser> deniedUserList = listDeniedUsers.execute();
 
@@ -56,7 +56,7 @@ public class UserController {
     }
 
     @PutMapping("/deny/{id}")
-    @CacheEvict(value = {"denied-list", "pending-approval-list"})
+    @CacheEvict(value = {"denied-list", "pending-approval-list"}, allEntries = true)
     public ResponseEntity<PendingUserDto> deny(
             @PathVariable("id") @Valid UUID id
     ){
