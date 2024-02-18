@@ -3,7 +3,6 @@ package com.unitech.classapi.application.usecase;
 import com.unitech.classapi.TestDataBuilder;
 import com.unitech.classapi.application.exceptions.NewUserRegistrationNotFoundedException;
 import com.unitech.classapi.application.exceptions.UserAlreadyApprovedException;
-import com.unitech.classapi.application.factory.*;
 import com.unitech.classapi.application.port.*;
 import com.unitech.classapi.domain.entity.*;
 import com.unitech.classapi.domain.enums.*;
@@ -51,7 +50,7 @@ public class ApproveUserTests {
 
         User result = approveUser.execute(id);
 
-        assertEquals(Status.ACCEPTED, pendingUser.getStatus());
+        assertEquals(UserStatus.APPROVED, pendingUser.getStatus());
 
         verify(userPort, times(1)).save(id);
 
@@ -73,7 +72,7 @@ public class ApproveUserTests {
     public void testExecute_UserApproval_UserAlreadyApproved() {
         UUID id = UUID.randomUUID();
         PendingUser pendingUser = TestDataBuilder.generateRegistrationForTeacher();
-        pendingUser.setStatus(Status.ACCEPTED);
+        pendingUser.setStatus(UserStatus.APPROVED);
 
         when(pendingUserPort.fetchPendingUserById(id)).thenReturn(pendingUser);
 

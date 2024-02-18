@@ -3,7 +3,7 @@ package com.unitech.classapi.application.usecase;
 import com.unitech.classapi.application.exceptions.*;
 import com.unitech.classapi.application.port.*;
 import com.unitech.classapi.domain.entity.*;
-import com.unitech.classapi.domain.enums.Status;
+import com.unitech.classapi.domain.enums.UserStatus;
 import lombok.*;
 import org.slf4j.*;
 import org.springframework.stereotype.*;
@@ -24,9 +24,9 @@ public class ApproveUser {
 
         PendingUser pendingUser = this.pendingUserPort.fetchPendingUserById(id);
         if(pendingUser == null) throw new NewUserRegistrationNotFoundedException("User registration not founded");
-        if(pendingUser.getStatus() == Status.ACCEPTED) throw new UserAlreadyApprovedException("User already approved");
+        if(pendingUser.getStatus() == UserStatus.APPROVED) throw new UserAlreadyApprovedException("User already approved");
 
-        pendingUser.setStatus(Status.ACCEPTED);
+        pendingUser.setStatus(UserStatus.APPROVED);
 
         this.pendingUserPort.save(pendingUser);
 

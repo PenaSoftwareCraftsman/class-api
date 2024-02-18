@@ -4,10 +4,10 @@ import com.unitech.classapi.application.port.LessonPort;
 import com.unitech.classapi.domain.entity.Lesson;
 import com.unitech.classapi.infrastructure.db.mongodb.model.LessonModel;
 import com.unitech.classapi.infrastructure.db.mongodb.repository.LessonDbRepository;
+import jakarta.validation.constraints.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -25,11 +25,8 @@ public class LessonDBAdapter implements LessonPort {
     @Override
     public Lesson fetchById(UUID id){
         LessonModel lesson = this.lessonDbRepository.findOne(
-                Example.of(LessonModel.toModel(
-                        Lesson.builder()
-                                .id(id)
-                                .build()
-                )
+                Example.of(LessonModel.builder()
+                        .id(id).build()
             )
         ).orElse(null);
 
@@ -37,19 +34,14 @@ public class LessonDBAdapter implements LessonPort {
     }
 
     @Override
-    public List<Lesson> fetchListByTeacherId(UUID id){
-
-        if(id == null) return Collections.emptyList();
+    public List<Lesson> fetchListByTeacherId(@NotNull UUID id){
 
         List<LessonModel> lessons = this.lessonDbRepository.findAll(
-                Example.of(LessonModel.toModel(
-                        Lesson.builder().teacher(id).build()
+                Example.of(
+                        LessonModel.builder().teacher(id)
+                                .build()
                 )
-            )
-        );
-
-        if(lessons.isEmpty()) return Collections.emptyList();
-
+            );
         return lessons.stream().map(LessonModel::toDomain).collect(Collectors.toList());
     }
 }
