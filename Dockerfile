@@ -1,8 +1,13 @@
-FROM maven:3.8.7-openjdk-17 AS build
-COPY . .
-RUN mvn clean package
+FROM openjdk:17-jdk-slim AS build
 
-FROM openjdk:17-jdk-alpine
-COPY --from=build /app/target/*.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","app.jar"]
+COPY pom.xml mvnw ./
+COPY .mvn .mvn
+RUN ./mvnw dependency:resolve
+
+COPY src src
+RUN ./mvnw package
+
+FROM openjdk:17-jdk-slim
+WORKDIR demo
+COPY --from=build target/*.jar demo.jar
+ENTRYPOINT ["java", "-jar", "demo.jar"]
