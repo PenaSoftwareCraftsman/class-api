@@ -29,6 +29,13 @@ public class UserFactory {
         };
     }
 
+    public static User fromPendingUser(PendingUser pendingUser){
+        return switch (pendingUser.getRole()) {
+            case TEACHER -> createTeacher(pendingUser.getId(), pendingUser.getName(), pendingUser.getPassword(), pendingUser.getEmail());
+            case SECRETARY -> createSecretary(pendingUser.getId(), pendingUser.getName(), pendingUser.getPassword(), pendingUser.getEmail());
+        };
+    }
+
     public static Secretary createSecretary(UUID id, String name, String password, String email){
         return Secretary.builder().id(id).name(name).password(password).email(email).build();
     }

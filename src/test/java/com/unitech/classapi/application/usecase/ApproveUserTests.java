@@ -1,20 +1,17 @@
 package com.unitech.classapi.application.usecase;
 
-import com.unitech.classapi.TestDataBuilder;
-import com.unitech.classapi.application.exceptions.NewUserRegistrationNotFoundedException;
-import com.unitech.classapi.application.exceptions.UserAlreadyApprovedException;
-import com.unitech.classapi.application.port.*;
+import com.unitech.classapi.*;
+import com.unitech.classapi.application.exceptions.*;
 import com.unitech.classapi.domain.entity.*;
 import com.unitech.classapi.domain.enums.*;
+import com.unitech.classapi.application.port.*;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.MockitoAnnotations.openMocks;
 
 public class ApproveUserTests {
 
@@ -29,56 +26,44 @@ public class ApproveUserTests {
 
     @BeforeEach
     void setUp() {
-        openMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    @DisplayName("Should approve and create a user when a pending user its approved")
-    void shouldCreateANewUserWhenAPendingUserItsApproved(){
-        UUID id = UUID.randomUUID();
+    @DisplayName("Should approve a pending user by id")
+    void shouldApprovePendingUserById() {
         PendingUser pendingUser = TestDataBuilder.generateRegistrationForTeacher();
-        pendingUser.setId(id);
-        User user = TestDataBuilder.generateNewUserByRegistration(pendingUser);
 
+        when(pendingUserPort.fetchPendingUserById(pendingUser.getId())).thenReturn(pendingUser);
+        doNothing().when(pendingUserPort).approve(pendingUser.getId());
 
+        approveUser.execute(pendingUser.getId());
 
-        when(pendingUserPort.fetchPendingUserById(id)).thenReturn(pendingUser);
-
-
-        when(pendingUserPort.save(pendingUser)).thenReturn(pendingUser);
-        when(userPort.save(id)).thenReturn(user);
-
-        User result = approveUser.execute(id);
-
-        assertEquals(UserStatus.APPROVED, pendingUser.getStatus());
-
-        verify(userPort, times(1)).save(id);
-
-        assertEquals(user, result);
+        verify(pendingUserPort, times(1)).approve(pendingUser.getId());
+        verify(userPort, times(1)).save(any(User.class));
     }
 
     @Test
-    @DisplayName("Should throw an error when the user registration is not found")
-    void shouldThrowAnErrorWhenTheUserRegistrationIsNotFound(){
+    @DisplayName("Should throw an exception when user registration is not found")
+    void shouldThrowExceptionWhenUserRegistrationNotFound() {
         UUID id = UUID.randomUUID();
-        when(pendingUserPort.fetchPendingUserById(id)).thenReturn(null);
+        when(pendingUserPort.fetchPendingUserById(id)).thenThrow(new NewUserRegistrationNotFoundedException("User registration not found"));
 
         assertThrows(NewUserRegistrationNotFoundedException.class, () -> approveUser.execute(id));
-
-        verify(userPort, never()).save(any(UUID.class));
+        verify(pendingUserPort, times(1)).fetchPendingUserById(id);
+        verifyNoInteractions(userPort);
     }
 
     @Test
-    public void testExecute_UserApproval_UserAlreadyApproved() {
-        UUID id = UUID.randomUUID();
+    @DisplayName("Should throw an exception when user is already approved")
+    void shouldThrowExceptionWhenUserAlreadyApproved() {
         PendingUser pendingUser = TestDataBuilder.generateRegistrationForTeacher();
         pendingUser.setStatus(UserStatus.APPROVED);
-
+        UUID id = pendingUser.getId();
         when(pendingUserPort.fetchPendingUserById(id)).thenReturn(pendingUser);
 
         assertThrows(UserAlreadyApprovedException.class, () -> approveUser.execute(id));
-
-        verify(userPort, never()).save(any(UUID.class));
+        verify(pendingUserPort, times(1)).fetchPendingUserById(id);
+        verifyNoInteractions(userPort);
     }
-
 }

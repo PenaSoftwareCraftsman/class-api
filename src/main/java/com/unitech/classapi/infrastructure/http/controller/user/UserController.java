@@ -7,7 +7,7 @@ import jakarta.validation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -33,9 +33,9 @@ public class UserController {
     public ResponseEntity<ApproveUserResponse> approve(
             @PathVariable("id") @Valid UUID id
     ){
-        ApproveUserResponse user = ApproveUserResponse.toDto(approveUser.execute(id));
+        approveUser.execute(id);
 
-        return ResponseEntity.ok(user);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/pendent/list")

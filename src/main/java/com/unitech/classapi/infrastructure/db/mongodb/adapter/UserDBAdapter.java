@@ -1,5 +1,6 @@
 package com.unitech.classapi.infrastructure.db.mongodb.adapter;
 
+import com.unitech.classapi.application.exceptions.*;
 import com.unitech.classapi.application.port.UserPort;
 import com.unitech.classapi.domain.entity.*;
 import com.unitech.classapi.infrastructure.db.mongodb.model.*;
@@ -48,14 +49,9 @@ public class UserDBAdapter implements UserPort {
     }
 
     @Override
-    public User save(UUID id){
+    public void save(User user){
         logger.info("Creating new user ");
-        PendingUserModel pendingUserModel = this.pendingUser.findById(id).orElse(null);
-
-        return pendingUserModel == null ? null : this.user.save(pendingUserModel.toRegularUserModel()).toDomain();
+        this.user.save(UserModel.toModel(user));
 
     }
-
-
-
 }

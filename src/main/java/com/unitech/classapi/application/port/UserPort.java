@@ -8,7 +8,7 @@ import java.util.*;
 @Repository
 public interface UserPort {
 
-    User save(UUID id);
+    void save(User user);
 
     User findUserById(UUID id);
 
