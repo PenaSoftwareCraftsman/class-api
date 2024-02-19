@@ -15,7 +15,7 @@ public class PendingUserDto {
     private String email;
     private Role role;
 
-    private Status status;
+    private UserStatus status;
 
     public static PendingUserDto toDto(@NotNull PendingUser pendingUser){
         return PendingUserDto.builder()

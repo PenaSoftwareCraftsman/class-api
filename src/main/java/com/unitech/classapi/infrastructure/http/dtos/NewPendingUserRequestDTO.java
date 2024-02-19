@@ -6,8 +6,6 @@ import com.unitech.classapi.domain.enums.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
-import java.util.UUID;
-
 @Data
 @AllArgsConstructor
 public class NewPendingUserRequestDTO {
@@ -21,6 +19,6 @@ public class NewPendingUserRequestDTO {
 
 
     public PendingUser toDomain() {
-        return UserFactory.buildPendingUser(null, name, email, password, role, Status.PENDING);
+        return UserFactory.buildPendingUser(null, name, email, password, role, UserStatus.PENDING);
     }
 }

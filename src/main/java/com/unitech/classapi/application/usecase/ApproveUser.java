@@ -18,12 +18,9 @@ public class ApproveUser {
 
     private final PendingUserPort pendingUserPort;
 
-    private final Logger logger = LoggerFactory.getLogger(CreatePendingUser.class);
-
     public User execute(UUID id){
 
         PendingUser pendingUser = this.pendingUserPort.fetchPendingUserById(id);
-        if(pendingUser == null) throw new NewUserRegistrationNotFoundedException("User registration not founded");
         if(pendingUser.getStatus() == UserStatus.APPROVED) throw new UserAlreadyApprovedException("User already approved");
 
         pendingUser.setStatus(UserStatus.APPROVED);

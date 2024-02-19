@@ -2,8 +2,7 @@ package com.unitech.classapi.domain;
 
 import com.unitech.classapi.domain.entity.Password;
 import com.unitech.classapi.domain.entity.PendingUser;
-import com.unitech.classapi.domain.enums.Role;
-import com.unitech.classapi.domain.enums.Status;
+import com.unitech.classapi.domain.enums.*;
 import com.unitech.classapi.infrastructure.db.mongodb.model.PendingUserModel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,7 @@ public class PendingUserTest {
     @Test()
     @DisplayName("Should convert an Entity to Model")
     void shouldConvertEntityToModel(){
-        PendingUser pendingUser = new PendingUser(UUID.randomUUID(), "John Doe", Password.create("password"), "johndoe@email.com", Role.TEACHER, Status.PENDING);
+        PendingUser pendingUser = new PendingUser(UUID.randomUUID(), "John Doe", Password.create("password"), "johndoe@email.com", Role.TEACHER, UserStatus.PENDING);
 
         PendingUserModel pendingUserModel = PendingUserModel.toModel(pendingUser);
         assertEquals(pendingUser.getId(), pendingUserModel.getId());
