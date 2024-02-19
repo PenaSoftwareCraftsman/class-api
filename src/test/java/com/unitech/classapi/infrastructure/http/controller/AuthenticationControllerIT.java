@@ -1,21 +1,19 @@
 package com.unitech.classapi.infrastructure.http.controller;
 
 
-import com.unitech.classapi.application.factory.*;
 import com.unitech.classapi.config.testcontainer.*;
 import com.unitech.classapi.domain.enums.*;
 import com.unitech.classapi.infrastructure.db.mongodb.model.*;
-import com.unitech.classapi.infrastructure.http.controller.auth.*;
 import com.unitech.classapi.infrastructure.http.dtos.*;
 import com.unitech.classapi.util.*;
 import org.junit.jupiter.api.*;
-import org.mockito.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.autoconfigure.web.servlet.*;
 import org.springframework.boot.test.context.*;
 import org.springframework.context.annotation.*;
 import org.springframework.data.domain.*;
 import org.springframework.http.*;
+import org.springframework.test.context.*;
 import org.springframework.test.web.servlet.*;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.*;
 
@@ -30,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Import(TestContainerConfig.class)
+@ActiveProfiles("test")
 public class AuthenticationControllerIT {
     @Autowired
     private ScenePersistBuilder scenePersistBuilder;
