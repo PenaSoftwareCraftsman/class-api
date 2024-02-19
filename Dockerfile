@@ -1,13 +1,6 @@
-FROM openjdk:17-jdk-slim AS build
+FROM openjdk:18 AS build
+WORKDIR /app
 
-COPY pom.xml mvnw ./
-COPY .mvn .mvn
-RUN ./mvnw dependency:resolve
-
-COPY src src
-RUN ./mvnw package
-
-FROM openjdk:17-jdk-slim
-WORKDIR demo
-COPY --from=build target/*.jar demo.jar
-ENTRYPOINT ["java", "-jar", "demo.jar"]
+COPY ./target/*SNAPSHOT.jar /app/app.jar
+EXPOSE 8080
+CMD ["java", "-jar", "app.jar"]

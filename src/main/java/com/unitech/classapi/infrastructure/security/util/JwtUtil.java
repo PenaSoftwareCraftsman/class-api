@@ -11,6 +11,7 @@ import com.unitech.classapi.domain.entity.DecodedToken;
 import com.unitech.classapi.domain.entity.Token;
 import com.unitech.classapi.domain.entity.User;
 import com.unitech.classapi.domain.enums.UserRole;
+import lombok.extern.slf4j.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,12 +24,11 @@ import java.time.ZoneOffset;
 import java.util.UUID;
 
 @Component
+@Slf4j
 public class JwtUtil {
 
-    @Value("${JWT.TOKEN.SECRET}")
+    @Value("${JWT.SECRET}")
     private String secret;
-
-    private final Logger logger = LoggerFactory.getLogger(CreatePendingUser.class);
 
     public Token generateToken(User user){
         try{
@@ -55,7 +55,7 @@ public class JwtUtil {
             DecodedJWT jwt = verifyToken(token);
             return extractDecodedToken(jwt);
         } catch (JWTVerificationException e) {
-            logger.error("Erro ao verificar o token JWT: " + e.getMessage());
+            log.error("Erro ao verificar o token JWT: " + e.getMessage());
 
             throw new RuntimeException("Failed to decode token", e);
         }

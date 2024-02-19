@@ -9,7 +9,6 @@ services:
       - "3000:3000"
     volumes:
       - class-api:/data
-      - .env:/class-api/.env
     environment:
       - JWT_TOKEN_SECRET=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJpc3MiOiJhdXRoMCJ9.AbIJTDMFc7yUa5MhvcP03nJPyCPzZtQcGEp-zWfOkEE
       - TIME_TO_LIVE=60000
