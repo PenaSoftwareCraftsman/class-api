@@ -25,6 +25,7 @@ public class DenyUserTests {
     @InjectMocks
     private DenyUser denyUser;
 
+
     @BeforeEach
     void setUp() {
         openMocks(this);
@@ -43,7 +44,7 @@ public class DenyUserTests {
     @DisplayName("Should throw an exception when user registration are not found")
     void shouldThrowAnExceptionWhenUserRegistrationAreNotFound(){
         UUID id = UUID.randomUUID();
-        when(pendingUserPort.fetchPendingUserById(id)).thenReturn(null);
+        when(pendingUserPort.fetchPendingUserById(id)).thenThrow(new NewUserRegistrationNotFoundedException("User registration not founded"));
         assertThrows(NewUserRegistrationNotFoundedException.class, () -> denyUser.execute(id));
 
     }

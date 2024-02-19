@@ -1,12 +1,13 @@
 package com.unitech.classapi.infrastructure.db.mongodb.adapter;
 
+import com.unitech.classapi.application.exceptions.*;
 import com.unitech.classapi.application.port.PendingUserPort;
 import com.unitech.classapi.domain.entity.PendingUser;
 import com.unitech.classapi.domain.enums.UserStatus;
 import com.unitech.classapi.infrastructure.db.mongodb.model.PendingUserModel;
 import com.unitech.classapi.infrastructure.db.mongodb.repository.UserPendingDbRepository;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.*;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Repository;
 
@@ -16,9 +17,10 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
+@RequiredArgsConstructor
 public class PendingUserDBAdapter implements PendingUserPort {
-    @Autowired
-    private UserPendingDbRepository pendingUser;
+
+    private final UserPendingDbRepository pendingUser;
 
     public PendingUser save(PendingUser pendingUser){
 
@@ -51,9 +53,9 @@ public class PendingUserDBAdapter implements PendingUserPort {
         PendingUserModel pendingUserModel = this.pendingUser.findOne(Example.of(
                         PendingUserModel.builder().id(id).build()
                 )
-        ).orElse(null);
+        ).orElseThrow(() -> new NewUserRegistrationNotFoundedException("User registration not founded"));
 
-        return pendingUserModel != null ? pendingUserModel.toDomain() : null;
+        return pendingUserModel.toDomain();
     }
 
     @Override

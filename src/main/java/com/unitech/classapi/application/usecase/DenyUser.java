@@ -14,10 +14,8 @@ import java.util.UUID;
 public class DenyUser {
     private final PendingUserPort pendingUserPort;
     public void execute(UUID id){
+
         PendingUser pendingUser = this.pendingUserPort.fetchPendingUserById(id);
-
-        if(pendingUser == null) throw new NewUserRegistrationNotFoundedException("User registration not founded");
-
         if(pendingUser.getStatus() == UserStatus.APPROVED) throw new UserAlreadyApprovedException("User already approved");
         if(pendingUser.getStatus() == UserStatus.DENIED) throw new UserAlreadyDeniedException("User already denied");
 
