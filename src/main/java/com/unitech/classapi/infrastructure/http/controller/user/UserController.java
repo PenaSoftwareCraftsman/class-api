@@ -61,6 +61,6 @@ public class UserController {
             @PathVariable("id") @Valid UUID id
     ){
         denyUser.execute(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

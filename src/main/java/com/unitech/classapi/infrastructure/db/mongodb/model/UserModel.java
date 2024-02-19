@@ -33,6 +33,6 @@ public class UserModel {
     }
 
     public User toDomain(){
-        return UserFactory.buildUser(this.id, this.name, this.password, this.email, Role.valueOf(this.role));
+        return UserFactory.buildUser(this.id, this.name, this.password, this.email, UserRole.valueOf(this.role));
     }
 }

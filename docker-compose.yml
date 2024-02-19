@@ -1,8 +1,26 @@
-version: '1.0'
+version: '2.0'
 
 services:
+  class-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - class-api:/data
+      - .env:/class-api/.env
+    environment:
+      - JWT_TOKEN_SECRET=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJpc3MiOiJhdXRoMCJ9.AbIJTDMFc7yUa5MhvcP03nJPyCPzZtQcGEp-zWfOkEE
+      - TIME_TO_LIVE=60000
+      - MONGO_DB=mongodb://root:password@localhost:27017/classes?authSource=admin
+    depends_on:
+      - mongodb
+    networks:
+      - class-api-network
+
   mongodb:
-    image: mongo
+    image: mongo:7.0.5
     container_name: mongo_database
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
@@ -12,4 +30,13 @@ services:
       - "27017:27017"
     volumes:
        - db:/data/db
+    networks:
+      - class-api-network
+
+networks:
+  class-api-network:
+
+volumes:
+  class-api: {}
+  db: {}
 

@@ -10,7 +10,7 @@ import com.unitech.classapi.infrastructure.http.dtos.PendingUserDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,12 +40,12 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     @CacheEvict(value = {"denied-list", "pending-approval-list"}, allEntries = true)
-    public ResponseEntity<PendingUserDto> register(
+    public ResponseEntity<Void> register(
             @RequestBody @Valid NewPendingUserRequestDTO newPendingUser
     ){
 
-        PendingUser pendingUser = createPendingUser.execute(newPendingUser.toDomain());
+        createPendingUser.execute(newPendingUser.toDomain());
 
-        return ResponseEntity.ok(PendingUserDto.toDto(pendingUser));
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

@@ -9,7 +9,7 @@ import java.util.UUID;
 @Repository
 public interface PendingUserPort {
 
-    PendingUser save(PendingUser pendingUser);
+    void save(PendingUser pendingUser);
 
     PendingUser fetchByEmail(String email);
 

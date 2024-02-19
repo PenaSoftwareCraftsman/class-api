@@ -8,6 +8,7 @@ import lombok.*;
 
 @Data
 @AllArgsConstructor
+@Builder
 public class NewPendingUserRequestDTO {
 
     private String name;
@@ -15,10 +16,10 @@ public class NewPendingUserRequestDTO {
     private String password;
     @Email
     private String email;
-    private Role role;
+    private UserRole role;
 
 
     public PendingUser toDomain() {
-        return UserFactory.buildPendingUser(null, name, email, password, role, UserStatus.PENDING);
+        return UserFactory.buildNewPendingUser(name, email, password, role, UserStatus.PENDING);
     }
 }

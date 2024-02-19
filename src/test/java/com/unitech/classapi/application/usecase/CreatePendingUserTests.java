@@ -1,20 +1,18 @@
 package com.unitech.classapi.application.usecase;
 
-import com.unitech.classapi.TestDataBuilder;
-import com.unitech.classapi.application.factory.*;
+import com.unitech.classapi.util.TestDataBuilder;
 import com.unitech.classapi.application.port.*;
 import com.unitech.classapi.domain.entity.*;
-import com.unitech.classapi.domain.enums.*;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
 
 
-import java.util.*;
 import java.util.logging.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -44,11 +42,11 @@ public class CreatePendingUserTests {
 
 
         when(pendingUserPort.fetchByEmail(pendingUser.getEmail())).thenReturn(null);
-        when(pendingUserPort.save(any(PendingUser.class))).thenReturn(pendingUser);
+        doNothing().when(pendingUserPort).save(any(PendingUser.class));
 
-        PendingUser createdPendingUser = createPendingUser.execute(pendingUser);
+        createPendingUser.execute(pendingUser);
 
-        assertEquals(pendingUser, createdPendingUser);
+        verify(pendingUserPort, times(1)).fetchByEmail(pendingUser.getEmail());
     }
 
     @Test

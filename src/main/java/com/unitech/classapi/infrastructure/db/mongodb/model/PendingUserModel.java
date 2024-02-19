@@ -2,7 +2,7 @@ package com.unitech.classapi.infrastructure.db.mongodb.model;
 
 import com.unitech.classapi.application.factory.UserFactory;
 import com.unitech.classapi.domain.entity.*;
-import com.unitech.classapi.domain.enums.Role;
+import com.unitech.classapi.domain.enums.UserRole;
 import com.unitech.classapi.domain.enums.UserStatus;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +23,7 @@ public class PendingUserModel {
     private String password_hash;
     private String email;
     private String role;
-    private String status;
+    private UserStatus status;
 
     public static PendingUserModel toModel(PendingUser user){
         return PendingUserModel.builder()
@@ -32,7 +32,7 @@ public class PendingUserModel {
                 .password_hash(user.getPassword())
                 .email(user.getEmail())
                 .role(user.getRole().toString())
-                .status(user.getStatus().toString())
+                .status(user.getStatus())
                 .build();
 
     }
@@ -43,8 +43,8 @@ public class PendingUserModel {
                 this.name,
                 this.email,
                 this.password_hash,
-                Role.valueOf(this.role),
-                UserStatus.valueOf(this.status)
+                UserRole.valueOf(this.role),
+                this.status
         );
     }
 

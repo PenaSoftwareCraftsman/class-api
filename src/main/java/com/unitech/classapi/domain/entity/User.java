@@ -17,13 +17,17 @@ public class User implements UserDetails{
     private String name;
     private String password;
     private String email;
-    private Role role;
+    private UserRole role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.role == Role.SECRETARY) return List.of(new SimpleGrantedAuthority("ROLE_SECRETARY"), new SimpleGrantedAuthority("ROLE_TEACHER"));
+        if(this.role == UserRole.SECRETARY) return List.of(new SimpleGrantedAuthority("ROLE_SECRETARY"), new SimpleGrantedAuthority("ROLE_TEACHER"));
 
         return List.of(new SimpleGrantedAuthority("ROLE_TEACHER"));
+    }
+
+    public boolean isValidPassword(String password){
+        return Password.validate(password, this.password);
     }
 
     @Override

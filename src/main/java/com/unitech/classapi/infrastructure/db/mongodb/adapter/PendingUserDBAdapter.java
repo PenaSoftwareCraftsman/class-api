@@ -22,10 +22,10 @@ public class PendingUserDBAdapter implements PendingUserPort {
 
     private final UserPendingDbRepository pendingUser;
 
-    public PendingUser save(PendingUser pendingUser){
+    public void save(PendingUser pendingUser){
 
-        PendingUserModel pendingUserModel = this.pendingUser.save(PendingUserModel.toModel(pendingUser));
-        return pendingUserModel.toDomain();
+        this.pendingUser.save(PendingUserModel.toModel(pendingUser));
+
     }
 
     @Override
@@ -41,7 +41,7 @@ public class PendingUserDBAdapter implements PendingUserPort {
     @Override
     public List<PendingUser> fetchListOfPendingApprovalUsers(){
         List<PendingUserModel> response = this.pendingUser.findAll(Example.of(
-                PendingUserModel.builder().status(UserStatus.PENDING.toString()).build()
+                PendingUserModel.builder().status(UserStatus.PENDING).build()
         ));
 
         if(response.isEmpty()) return Collections.emptyList();
@@ -61,7 +61,7 @@ public class PendingUserDBAdapter implements PendingUserPort {
     @Override
     public List<PendingUser> fetchListOfDeniedUsers(){
         List<PendingUserModel> response = this.pendingUser.findAll(Example.of(
-                PendingUserModel.builder().status(UserStatus.DENIED.toString()).build()
+                PendingUserModel.builder().status(UserStatus.DENIED).build()
         ));
 
         if(response.isEmpty()) return Collections.emptyList();
@@ -71,11 +71,11 @@ public class PendingUserDBAdapter implements PendingUserPort {
 
     @Override
     public void deny(@NotNull UUID id){
-        this.pendingUser.setStatus(id, UserStatus.DENIED.toString());
+        this.pendingUser.updateStatusById(id, UserStatus.DENIED);
     }
 
     @Override
     public void approve(@NotNull UUID id){
-        this.pendingUser.setStatus(id, UserStatus.APPROVED.toString());
+        this.pendingUser.updateStatusById(id, UserStatus.APPROVED);
     }
 }

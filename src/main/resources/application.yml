@@ -1,8 +1,8 @@
 spring:
   cache:
-    time-to-live: 6000
+    time-to-live: ${TIME_TO_LIVE}
   data:
     mongodb:
-      uri: mongodb://root:password@localhost:27017/classes?authSource=admin
+      uri: ${MONGO_DB}:mongodb://root:password@localhost:27017/classes?authSource=admin
 JWT:
-  SECRET: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJpc3MiOiJhdXRoMCJ9.AbIJTDMFc7yUa5MhvcP03nJPyCPzZtQcGEp-zWfOkEE
+  SECRET: {JWT_TOKEN_SECRET}:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJpc3MiOiJhdXRoMCJ9.AbIJTDMFc7yUa5MhvcP03nJPyCPzZtQcGEp-zWfOkEE

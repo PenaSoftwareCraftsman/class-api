@@ -9,6 +9,6 @@ import java.util.*;
 public class Teacher extends User{
     @Builder
     public Teacher(UUID id, String name, String password, String email){
-        super(id, name, password, email, Role.TEACHER);
+        super(id, name, password, email, UserRole.TEACHER);
     }
 }

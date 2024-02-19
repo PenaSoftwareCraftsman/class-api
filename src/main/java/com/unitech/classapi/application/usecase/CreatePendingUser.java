@@ -14,9 +14,9 @@ public class CreatePendingUser {
     private final PendingUserPort userPort;
     private final Logger logger = LoggerFactory.getLogger(CreatePendingUser.class);
 
-    public PendingUser execute(PendingUser pendingUser) {
+    public void execute(PendingUser pendingUser) {
         verifyUserExistByEmail(pendingUser.getEmail());
-        return this.userPort.save(pendingUser);
+        this.userPort.save(pendingUser);
     }
 
     private void verifyUserExistByEmail(String email) {

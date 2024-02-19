@@ -13,7 +13,7 @@ public class PendingUserDto {
     private String name;
     private String password_hash;
     private String email;
-    private Role role;
+    private UserRole role;
 
     private UserStatus status;
 

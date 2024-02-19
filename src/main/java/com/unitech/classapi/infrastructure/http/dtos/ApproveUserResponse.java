@@ -16,7 +16,7 @@ public class ApproveUserResponse {
     private String name;
     private String password;
     private String email;
-    private Role role;
+    private UserRole role;
 
     public static ApproveUserResponse toDto(User user){
         return ApproveUserResponse.builder()

@@ -1,6 +1,6 @@
 package com.unitech.classapi.application.usecase;
 
-import com.unitech.classapi.TestDataBuilder;
+import com.unitech.classapi.util.TestDataBuilder;
 import com.unitech.classapi.application.port.LessonPort;
 import com.unitech.classapi.application.port.UserPort;
 import com.unitech.classapi.domain.entity.Lesson;

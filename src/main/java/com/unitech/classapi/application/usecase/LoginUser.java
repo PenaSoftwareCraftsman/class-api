@@ -23,7 +23,7 @@ public class LoginUser {
 
         if(user == null) throw new InvalidEmailOrPasswordException();
 
-        if(!Password.validate(password, user.getPassword())) throw new InvalidEmailOrPasswordException();
+        if(!user.isValidPassword(password)) throw new InvalidEmailOrPasswordException();
 
         return this.jwtUtil.generateToken(user);
     }

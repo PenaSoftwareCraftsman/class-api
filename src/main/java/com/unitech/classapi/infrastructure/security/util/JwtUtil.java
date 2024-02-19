@@ -10,7 +10,7 @@ import com.unitech.classapi.application.usecase.CreatePendingUser;
 import com.unitech.classapi.domain.entity.DecodedToken;
 import com.unitech.classapi.domain.entity.Token;
 import com.unitech.classapi.domain.entity.User;
-import com.unitech.classapi.domain.enums.Role;
+import com.unitech.classapi.domain.enums.UserRole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +25,7 @@ import java.util.UUID;
 @Component
 public class JwtUtil {
 
-    @Value("${JWT.SECRET}")
+    @Value("${JWT.TOKEN.SECRET}")
     private String secret;
 
     private final Logger logger = LoggerFactory.getLogger(CreatePendingUser.class);
@@ -66,7 +66,6 @@ public class JwtUtil {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm).build().verify(token);
         } catch (JWTDecodeException exception) {
-
             throw new RuntimeException("Failed to decode token", exception);
         }
     }
@@ -76,7 +75,7 @@ public class JwtUtil {
             UUID id = UUID.fromString(getClaimValue(jwt, "id"));
             String name = getClaimValue(jwt, "nome");
             String email = getClaimValue(jwt, "email");
-            Role role = Role.valueOf(getClaimValue(jwt, "role"));
+            UserRole role = UserRole.valueOf(getClaimValue(jwt, "role"));
 
             return DecodedToken.builder().id(id).name(name).email(email).role(role).build();
         } catch (JWTDecodeException exception) {
