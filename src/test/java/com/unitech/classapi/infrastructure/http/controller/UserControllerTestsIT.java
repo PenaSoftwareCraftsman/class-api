@@ -41,8 +41,9 @@ public class UserControllerTestsIT {
     @Test
     @DisplayName("Should approve user")
     void testApproveUser() throws Exception {
-        scenePersistBuilder.buildValidSecretaryUser();
-        var tokenSecretary = generateValidToken();
+        UserModel secretaryUser = scenePersistBuilder.buildValidSecretaryUser();
+
+        String tokenSecretary = scenePersistBuilder.buildValidTokenByUser(secretaryUser).getValue();
         var newPendingUser = scenePersistBuilder.buildValidPendingTeacherUser();
         mockMvc.perform(put("/user/approve/{id}", newPendingUser.getId())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -75,8 +76,9 @@ public class UserControllerTestsIT {
     @Test
     @DisplayName("Should fetch pending approval list")
     void testFetchPendingApproval() throws Exception {
-        scenePersistBuilder.buildValidSecretaryUser();
-        var tokenSecretary = generateValidToken();
+        UserModel secretaryUser = scenePersistBuilder.buildValidSecretaryUser();
+
+        String tokenSecretary = scenePersistBuilder.buildValidTokenByUser(secretaryUser).getValue();
         scenePersistBuilder.buildListValidPendingTeacherUser(5);
         mockMvc.perform(get("/user/pendent/list")
                     .contentType(MediaType.APPLICATION_JSON)
@@ -89,8 +91,9 @@ public class UserControllerTestsIT {
     @Test
     @DisplayName("Should fetch denied list")
     void testFetchDeniedList() throws Exception {
-        scenePersistBuilder.buildValidSecretaryUser();
-        var tokenSecretary = generateValidToken();
+        UserModel secretaryUser = scenePersistBuilder.buildValidSecretaryUser();
+
+        String tokenSecretary = scenePersistBuilder.buildValidTokenByUser(secretaryUser).getValue();
         scenePersistBuilder.buildListValidDeniedTeacherUser(5);
         mockMvc.perform(get("/user/denied")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -103,9 +106,13 @@ public class UserControllerTestsIT {
     @Test
     @DisplayName("Should deny user")
     void testDenyUser() throws Exception {
-        scenePersistBuilder.buildValidSecretaryUser();
-        var tokenSecretary = generateValidToken();
-        var newPendingUser = scenePersistBuilder.buildValidPendingTeacherUser();
+        UserModel secretaryUser = scenePersistBuilder.buildValidSecretaryUser();
+
+        String tokenSecretary = scenePersistBuilder.buildValidTokenByUser(secretaryUser).getValue();
+
+        PendingUserModel newPendingUser = scenePersistBuilder.buildValidPendingTeacherUser();
+
+
         mockMvc.perform(put("/user/deny/{id}", newPendingUser.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", "Bearer " + tokenSecretary)
