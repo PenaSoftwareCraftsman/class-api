@@ -1,41 +1,48 @@
-version: '2.0'
+version: '3'
 
 services:
+  mongodb:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    networks:
+      - class-api-network
+    volumes:
+      - db:/data/db
+      - ./init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
+    healthcheck:
+      test: [ "CMD", "mongo", "admin", "--eval", "db.serverStatus()" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
   class-api:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
-    volumes:
-      - class-api:/data
+      - "8080:8080"
     environment:
       - JWT_TOKEN_SECRET=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJpc3MiOiJhdXRoMCJ9.AbIJTDMFc7yUa5MhvcP03nJPyCPzZtQcGEp-zWfOkEE
       - TIME_TO_LIVE=60000
-      - MONGO_DB=mongodb://root:password@localhost:27017/classes?authSource=admin
+      - MONGO_DB=mongodb://root:password@mongodb:27017/classes?authSource=admin
+      - ALLOW-ORIGIN=http://localhost:3000
     depends_on:
       - mongodb
     networks:
       - class-api-network
-
-  mongodb:
-    image: mongo:7.0.5
-    container_name: mongo_database
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=password
-    restart: always
-    ports:
-      - "27017:27017"
     volumes:
-       - db:/data/db
-    networks:
-      - class-api-network
+      - class-api:/data
 
-networks:
-  class-api-network:
 
 volumes:
   class-api: {}
   db: {}
 
+networks:
+  class-api-network:
+    driver: bridge

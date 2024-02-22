@@ -1,6 +1,6 @@
-FROM openjdk:18 AS build
+FROM openjdk:18 as build
 WORKDIR /app
 
 COPY ./target/*SNAPSHOT.jar /app/app.jar
-EXPOSE 8080
+
 CMD ["java", "-jar", "app.jar"]

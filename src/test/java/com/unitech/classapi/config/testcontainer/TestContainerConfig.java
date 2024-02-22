@@ -7,12 +7,11 @@ import org.springframework.test.context.*;
 import org.testcontainers.containers.MongoDBContainer;
 
 @TestConfiguration(proxyBeanMethods = false)
-@ActiveProfiles("test")
 public class TestContainerConfig {
     @Bean
     @ServiceConnection
     public MongoDBContainer mongoDBContainer() {
-        return new MongoDBContainer("mongo:7.0.5");
+        return new MongoDBContainer("mongo:latest");
     }
 
 }
